@@ -69,3 +69,4 @@ Perhatikan bahwa :
 
 Singkatnya, R adalah alat yang luar biasa untuk eksplorasi dan investigasi data. Proses elaborasi dataseperti clustering, correlation, dan data reduction dapat dilakukan oleh R, dan hal tersebut adalah bagian terpenting karena tanpa adanya hasil awal terkait elaborasi data, maka pengembangan suatu _machine learning_ tidak dapat bermakna.
 
+Tq2
