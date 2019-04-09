@@ -1,0 +1,837 @@
+---
+title: "Langkah Cepat Mengenal Program R"
+output: html_notebook
+---
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+## 1. Mengenal Data dan Operator
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+#### Program R sebagai kalkulator
+
+Program R dapat berfungsi sebagai calculator. Silahkan gunakan console secara langsung untuk memuat perhitungan sederhana yang dibutuhkan. Contoh
+
+
+```{r}
+2 + 3
+sqrt(36)
+log10(100)
+10 / 3
+10 %/% 3
+10 %% 3
+
+```
+
+
+
+#### Assigment variabel
+
+Sebagai sebuah bahasa program, tentu R dapat menyimpan variabel. Proses memberikan nilai atau assignment variabel sedikit berbeda dengan bahasa pada umummnya karena menggunakan tanda __<-__ . Sebenarnya R juga bisa menggunakan tanda " = " , namun dianjurkan menggunakan operator assignment yang standar.
+
+```{r}
+a <- 10 # memberikan nilai 10 pada variabel a
+b <- 20.7
+
+# manampilkan nilai suatu variabel dapat langsung dengan menuliskan variabel tersebut atau menggunakan perintah print()
+
+a
+print(b)
+```
+
+
+#### Tipe-Tipe variabel dan Data
+
+Program R memudahkan pengguna dengan tidak perlu menulskan tipe suatu variabel. R langsung mengidentifikasi tipe sebuah variabel dari nilai yang diberikan (assign) pada variabel tersebut. Untuk melihat tipe variabel dapat menggunakan perintah __class()__.
+
+
+```{r}
+class(a)
+class(b)
+```
+
+Apabila ingin mendefinisikan atau mengganti tipe data suatu variabel bisa menggunakan contoh seperti ini.
+
+```{r}
+c <- 4 # C awalnya bertipe numerik
+c
+class(c)
+
+c <- as.character(c)
+c
+class(c)
+
+```
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+#### Tipe-Tipe variabel
+
+* character -- string
+* integer -- numerik bilangan bulat
+* numeric -- integer, termasuk tipe double (float)
+* factor -- variabel bertipe kategori
+* logical -- boolean
+* complex -- bilangan kompleks
+
+
+#### Tipe-Tipe Data
+
+* vector -- sekumpulan item dengan class atau tipe variabel yang sama
+* data.frame -- sekumpulan data (ilustrasinya seperti tabel), dimana setiap kolom berisi item data dengan tipe (class) yang sama.
+* matrix -- Seperti data.frame, hanya saja Semua kolom harus bertipe sama
+* list -- tipe menyimpan data dengan tipe (class) yang berbeda beda
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+## 2. Mengenal Package, Help, Directory, dan Import/Export CSV
+
+\newline
+&nbsp;
+\newline
+
+
+#### Packages
+
+Package atau library adalah komponen yang memudahkan pengolahan atau penyajian data. Pada prinsipnya R telah mengikutsertakan beberapa paket atau library dasar pada saat instalasi. Namun karena R adalah sebuah pemrograman yang bersifat terbuka, maka untuk keperluan pengolahan atau penyajian data sejumlah pihak telah mengembangkan banyak paket-paket fungsi (packages) atau library yang siap digunakan. 
+
+Sebagaimana telah disampaikan dalam sesi tutorial sebelumnya, untuk melihat dan mencari package yang telah tersedia di komputer, bisa melihat pada sisi kanan bawah. 
+
+Demikian juga untuk melakukan instlasi, bisa langsung mengklik tombol install. Instalasi juga dapat dilakukan dengan perintah yang dieksekusi pada console. Sevagai contoh, dilakukan instalasi package "car" atau Companion to Applied Regression.
+
+```{r}
+install.packages("car")
+```
+
+Penggunaan package dapat dilakukan dengan melakukan proses inisiasi pada bagian awal program. Perintah yang digunakan untuk inisiasi seperti contoh di bawah ini.
+
+```{r}
+library(car)  # inisiasi package 'car'
+require(car)  # cara lain melakukan inisiasi
+library()  # melihat seluruh packages yang ada di komputer
+library(help=car)  # melihat informasi mengenai package "car"
+```
+
+
+\newline
+&nbsp;
+\newline
+
+
+#### Help
+
+Help berfungsi sebagai alat bantu untuk mengetahui bagaimana  menggunakan fungsi atau perintah. Cara menggunakan Help bisa menggunakan Tab Help yang tersedia di bagian kanan bawah area kerja, atau dengan mengetik perintah seperti contoh di bawah ini.
+
+```{r}
+help(merge)  # get help page for 'merge'
+?merge  # lookup 'merge' from installed pkgs
+??merge  # vague search
+example(merge)  # show code examples
+```
+
+\newline
+&nbsp;
+\newline
+
+#### Direktori Kerja
+
+Direktori atau folder tempat kerja penting untuk diketahui. Hal ini dapat dipermudah dengan mengaturnya sejak awal menggunakan Project dan menyimpan working space seperti yang telah dijelaskan pada tutorial sebelumnya. 
+
+Adapun untuk melihat folder tempat bekerja dapat dilakukan dengan menggunakan Tab Files pada area kerja sebelah kanan bawah. Bisa juga menggunakan perintah seperti contoh di bawah ini.
+
+```{r}
+getwd()  # mendapatkan direktori atau folder tempat kerja
+# setwd(dirname)  # melakukan set direktori atau folder
+
+# Jika ingin menyimpan informasi direktori ke sebuah variabel, gunakan assignment
+directori <-getwd()
+directori
+
+```
+
+\newline
+&nbsp;
+\newline
+
+#### Import/Export CSV
+
+
+Proses yang sering dilakukan dalam pemanfaatan R adalah mengolah data dari eskternal, misal dari file CSV, XLS, atau bahkan mengaksesnya dari basisdata. Pada sesi ini, diperkenalkan secara singkat import/export file CSV.
+
+```{r}
+# myData <- read.csv("F:/71 TUTORIALS/R-introduction/data/irisData.csv")
+# Atau menggunakan
+
+directori <-getwd()
+directori <-paste0(directori,"/data/irisData.csv")
+myData <- read.csv(directori, header = TRUE)
+myData
+
+```
+
+
+```{r}
+write.csv(myData, "F:/71 TUTORIALS/R-introduction/data/irisDataEkspor.csv")
+```
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+#### Melihat dan Menghapus Data di Environment
+
+\newline
+&nbsp;
+\newline
+
+Setiap membuat variabel, variabel tersebut disimpan di memori komputer atau di bagian Environment. Beberapa perintah dasar yang dapat digunakan untuk melihat dan menghapus variabel seperti contoh di bawah ini.
+
+```{r}
+a <- 10
+b <- 20.7
+ls()  # melihat semua variabel yang terdapat pada Global Environment
+# rm(a) # menghapus objek 'a'
+# rm(list = ls())  # menyebabkan penghapusan seluruh objek dalam GlobalEnv
+# gc()  # membersihkan memori sistem
+
+```
+
+Selain menggunakan Global Environment ( GlobalEnv), dapat juga dibuat atau didefinisikan environment dengan nama yang diinginkan. Environtment yang dibuat ini dapat menyimpan variabel atau data juga.
+
+```{r}
+rm(list=ls())  # rmenghapus semua objek dalam work space
+env1 <- new.env()  # membuat sebuah environment dengan nama env1
+assign("a", 3, envir = env1)  # menyimpan a=3 dalam env1
+ls()  # melihat objek dalam .GlobalEnv
+ls(env1)  # melihat objeck dalam env1
+get('a', envir=env1)  # mengambil nilai dari env1
+```
+
+
+Package atau library adalah komponen yang memudahkan pengolahan atau penyajian data. Pada prinsipnya R telah mengikutsertakan beberapa paket atau libr
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+## 3. Vektors
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Membuat Vectors
+
+Vector adalah kumpulan data yang memiliki class atau tipe variabel yang sama. Vector dapat dianalogikan dengan sebuah kolom pada sebuah tabel, dimana data dalam kolom tersebut tentunya memiliki tipe yang sama.
+
+
+Vector dibuat menggunakan fungsi __c()__. 
+
+```{r}
+vec1 <- c(10, 20, 15, 40)  # numeric
+vec2 <- c("a", "b", "c", NA)  # character
+vec3 <- c(TRUE, FALSE, TRUE, TRUE)  # logical
+vec4 <- gl(4, 1, 4, label = c("l1", "l2", "l3", "l4"))  # factor dengan 4 levels  --> Ingat kembali bahwa factor adalah salah satu tipe variabel
+```
+
+Mari kita lihat hasilnya.
+
+```{r}
+vec1
+vec2
+vec3
+vec4
+```
+
+\newline
+&nbsp;
+\newline
+
+#### Mengakses Vectors
+
+Elemen atau item data dalam Vector dapat diakses menggunakan indeks. Elemen pertama memiliki indeks 1 dan element terakhir sama dengan jumlah elemen atau panjang vektor. 
+
+```{r}
+length(vec1)
+print(vec1[1])
+print(vec1[1:3])
+print(vec1[1:length(vec1)])
+```
+
+
+\newline
+&nbsp;
+\newline
+
+#### Inisiasi Vectors dengan Panjang Tertentu
+
+Vector dapat diinisasi di awal dengan mendefinisikan panjang elemen vektornya. Misalkan, dibuat sebuah vector yang berupa angka atau numerik dengan panjang data yang akan diisi sebanyak 100 data.
+
+```{r}
+numVector <- numeric(100)  # panjang 100 elemen
+```
+
+
+\newline
+&nbsp;
+\newline
+
+### Manipulasi Vectors
+#### Subsetting
+
+```{r}
+logic1 <- vec1 < 15  # membuat Logical vector dengan kondisi tertentu dari vector sebelumnya, TRUE jika nilai < 15
+vec1[logic1]  # elemen-elemen yang TRUE akan dimasukkan ke dalam subset
+vec1[1:2]  # mengambil elemen pada posisi 1 sampai 2.
+vec1[c(1,3)]  # mengambil elemen pada posisi 1 & 3
+vec1[-1]  # mengambil semua elemen kecuali pada posisi 1
+```
+
+
+#### Sorting
+
+```{r}
+sort(vec1)  # ascending sort
+sort(vec1, decreasing = TRUE)  # Descending sort 
+```
+
+Sorting juga dapat menggunakan fungsi __order()__
+
+```{r}
+vec1[order(vec1)]  # ascending sort
+vec1[rev(order(vec1))]  # descending sort
+```
+
+
+#### Membuat Urutan dan Pengulangan Vektor
+
+Fungsi __seq()__ dan __rep()__ digunakan untuk membuat vector yang isinya telah berurutan. Fungsi __rep()__ dapat digunakan juga untuk membuat vetor repetisi berisi alphabet.
+
+
+```{r}
+# Membuat vector yang nilainya antara 1 s.d. 10 dengan selisih per elemen sebesar 2
+seq(1, 10, by = 2)
+
+# Membuat vector yang nilainya antara 1 s.d. 10, dimana jumlah elemennya sebanyak 25 data.
+seq(1, 10, length=25)
+
+# Membuat vector yang isinya 1 sebanyak 5 elemen. ATAU
+# Membuat repetisi nilai 1 sebanyak 5 kali
+rep(1, 5)  
+
+# Membuat vector yang isinya 1 s.d. 3 dan diulang sebanyak 5 kali
+rep(1:3, 5)
+
+# Membuat vector yang isinya 1 s.d. 3 dimana masing elemen direpetisi dahulu sebanyak 5 kali
+rep(1:3, each=5)
+```
+
+
+#### Membuang Nilai Kosong (Mising Value)
+
+Nilai kosong atau _Mising value_ dapat ditangani menggunakan fungsi __is.na()__ yang mengembalikan vector logical dengan nilai TRUE pada posisi dimana nilai kosong tersebut berada.
+
+```{r}
+vec2 <- c("a", "b", "c", NA)
+vec2
+
+is.na(vec2)
+
+!is.na(vec2)
+
+vec2[!is.na(vec2)]
+```
+
+
+#### Sampling
+
+Sampling biasa digunakan untuk memilih _data training_ secara random dari untuk menguji model yang akan digunakan pada _data testing_.
+
+```{r}
+set.seed(100)  # contoh membangkitkan data sample secara random
+
+sample(vec1)   # mengambil sample secara random dari semua elemen
+
+sample(vec1, 3) # mengambil sample 3 elemen tanpa penggantian
+
+sample(vec1, 10, replace = T) # mengambil sample dengan penggantian
+
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+## 4. Data Frame
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Membuat dan mengakses data frame
+
+Data Frame adalah bentuk atau format kumpulan data yang populer digunakan dalam berbagai analisis statstik. Data frame ini dapat diibaratkan seperti sebuah tabel, yang memiliki header. Data frame biasa digunakan untuk menyimpan data yang diimport dari tabel file CSV atau diambil dari database.
+
+Pada contoh awal ini, diilustrasikan data frame disusun oleh beberapa vector (kolom).
+
+```{r}
+myDf1 <- data.frame(vec1, vec2)  # membuat data frame dengan dua buah kolom
+myDf2 <- data.frame(vec1, vec3, vec4)
+myDf3 <- data.frame(vec1, vec2, vec3)
+```
+
+Perhatikan hasil pembentukan data frame di atas.
+```{r}
+myDf1
+myDf2
+myDf3
+```
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Menggunakan Datasets
+
+Program R, menyediakan package/library datasets, yakni contoh-contoh data yang siap dimanfaatkan untuk proses pembelajaran. Datasets disimpan dalam bentuk data frame oleh program R.
+
+```{r}
+library(datasets)   # Inisiasi dataset
+library(help="datasets") # menampilkan datasets
+```
+
+Sebagai ilustrasi, digunakan contoh dataset kualitas udara ( _airquality_ ). Kemudian beberapa perintah yang sering digunakan untuk pemanfaatn datasets disajikan di bawah ini.
+
+```{r}
+class(airquality)  # menampilkan tipe class data airquality
+sapply(airquality, class)  # menampilkan tipe class setiap kolom
+str(airquality)  # menampilkan struktur dataset airquality
+summary(airquality) # menampilkan ringkasan dataset airquality
+head(airquality)  # menampilkan 6 baris pertama dari dataset
+fix(airquality)   # menampilkan data dalam bentuk spreadsheet
+rownames(airquality)  # menampilkan nama-nama baris (yang dijadikan acuan indeks atau pengenal baris)
+colnames(airquality) # menampilkan nama-nama kolom
+nrow(airquality)  # menampilkan jumlah baris
+ncol(airquality)  # menampilkan jumlah kolom
+```
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Menambahkan Data pada Dataframe (cbind dan rbind)
+
+Program R, memberikan kemudahan untuk menambahkan data, baik berupa record (baris) atau menambahkan data kolom. Penambahan data kolom menggunakan perintah cbind, dan penambahan baris data menggunakan rbind.
+
+Ilustrasi sederhana ini semoga bisa membantu mengetahui proses penambahan data.
+
+```{r}
+cbind(myDf1, myDf2)  # Menambahkan data pada kolom baru
+rbind(myDf1, myDf1)  # Menambahkan baris data
+```
+
+
+Mengakses dan memanipulasi sebagian dataframe sesuai kriteria tertentu ( _Subsetting_ ) tidak berbeda seperti mengakses dan memanipulasi vector. Perhatikan beberapa contoh perintah yang sering digunakan untuk mengakses dataframe.
+
+```{r}
+myDf1$vec1    # mengambil data dari kolom vec1
+myDf1[, 1]    # df[row.num, col.num]  -> Jadi mengambil semua baris dari kolom 1
+myDf1[, c(1,2)] # Mengambil semua baris, dari kolom 1 dan 2
+myDf1[c(1:5), c(2)] # Mengambil 5 baris pertama dari kolom ke-2
+```
+
+Saatnya menggunakan data yang lebih besar dari dataset airquality. Misal, akan mengambil data selain kolom "Temp" dan isi dari "Day" adalah 1.
+
+```{r}
+subset(airquality, Day == 1, select = -Temp)  # Mengambil data yang Day = 1 dan tidak mengikutsertakan kolom Temp
+airquality[which(airquality$Day==1), -c(4)]  # Hasilnya sama dengan perintah di atas.
+```
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Sampling dari Dataframe
+
+Pengambilan data sampling untuk kepentingan data training (untuk membangun/memilih model yang akan digunakan) dan data testing (untuk menguji model terpilih) sering dilakukan pada data analisis. Penggunaan proses sampling memudahkan kita mengambil data secara random dari sekumpulan besar data yang telah tersedia.
+
+Misal, dari data airquality, 70 bagian data akan digunakan untuk data training dan 30 bagian lainnya digunakan untuk data testing.
+
+```{r}
+set.seed(100)
+trainIndex <- sample(c(1:nrow(airquality)), size = nrow(airquality)*0.7, replace = F)  # Mengambil index dari airquality sebanyak 70 bagian untuk data training.
+
+airquality[trainIndex, ]  # mengambil data yang 70 bagian tersebut berdasarkan indeks pada data variabel trainIndex
+
+airquality[-trainIndex, ]  # mengambil data yang 30 bagian tersebut berdasarkan indeks selain dari pada data variabel trainIndex
+
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Menggabungkan (Merging) Dataframe
+
+Dataframe dapat digabungkan _merge()_ menggunakan sebuah kolom sebagai penandanya (key atau indeks). Proses penggabungan tidak membutuhkan proses pengurutan terlebih dahulu. Hal itu karena jika 'kolomnya' memiliki nama yang berbeda, proses penggabungan dapat langsung memproses menggunakan 'by.x' dan 'by.y'. Proses penggabungan juga dapat memanfaatkan perintah _inner/outer join, left join dan right join_ untuk dikombinasikan dengan perintah _all, all.x, all.y_. 
+
+perhatikan ilustrasi awal ini.
+
+```{r}
+merge(myDf1, myDf2, by="vec1")  # Menggabungkan dengan acuan kolom vec1. 
+# kolom vec1 ada dalam myDf1 dan myDf2. 
+
+
+```
+
+Sebagai latihan, coba lakukan proses penggabungan data frame dengan dataframe contoh di bawah ini.
+
+```{r}
+set.seed(100)
+df1 = data.frame(StudentId = c(1:10), MataKuliah = sample(c("Kalkulus", "PTI", "ProgKomp"), 10, replace = T))
+
+df1 = data.frame(StudentNum = c(2, 4, 6, 12), Hobby = sample(c("Futsal", "Basket", "Seni"), 4, replace = T))
+
+```
+
+
+
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+## 6. Fungsi Umum Lainnya yang Sering Digunakan
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+
+#### Paste -- Penggabungan String
+
+__Paste()__ adalah fungsi yang digunakan untuk menggabungkan string. Ada dua bentuk paste(), yakni paste0() yang menggabungkan string tanpa spasi, dan paste() yang menggabungkan string disertai spasi antar string.
+
+```{r}
+paste("a", "b")   # "a b"
+paste0("a", "b")  # "ab" tanpa spasi antar string
+paste("a", "b", sep = "")   # "ab" separatornya tanpa spasi
+paste(c(1:4),c(5:8), sep = "")
+paste(c(1:4),c(5:8), sep = "", collapse = "")
+paste0("var", c(1:5)) # "var1" "var2" "var3" "var4" "var5"
+paste0(c("var", "pred"), c(1:3))  # "var1" "pred2" "var3"
+paste0(c("var", "pred"), rep(1:3, each=2))  # "var1" "pred1" "var2" "pred2" "var3" "pred3
+
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+#### Date -- Tanggal
+
+Pengolahan data tanggal kadangkala sering ditemui pada saat melakukan analisis. Beberapa perintah dasar yang berkaitan dengan tanggal sebagai berikut.
+
+```{r}
+dateString <- "15/06/2014"
+myDate <- as.Date(dateString, format="%d/%m/%Y")
+class(myDate)  # "Date"
+myPOSIXltDate %lt;- as.POSIXlt(myDate)
+class(myPOSIXltDate)  # POSIXlt
+myPOSIXctDate <- as.POSIXct(myPOSIXltDate)  # convert to POSIXct
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+#### Melihat Konten Object
+
+Jika menemui sebuah object R yang belum familiar, kemudian ingin melihat konten dan mengaksesnya, maka beberapa perintah di bawah ini kemungkinan bermanfaat.
+
+```{r}
+attributes(myPOSIXltDate)  # best
+unclass(POSIXltDate)  # works!
+names(myPOSIXltDate)  # doesn't work on a POSIXlt object
+unlist(myPOSIXltDate)  # works!
+```
+
+
+```{r}
+object.size(myDate)  # 216 bytes
+object.size(myPOSIXltDate)  # 1816 bytes
+object.size(myPOSIXctDate)  # 520 bytes
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+#### Membuat Tabel Contigency 
+
+Tabel Contingency (tabel sementara atau tabel bantuan) dapat digunakan untuk membuat ringkasan menghitung jumlah data pada suatu vector atau data berdimensi dua. Perhatikan contoh membuat ringkasan menghitung jumlah data suatu vektor di bawah ini. 
+
+```{r}
+myData
+table(myData)
+# table output
+#=> 0  1  2  3  4  5  6  7  8  9 
+#=> 1  3 10 17 18 12 22  7  8  2
+```
+
+Hampir sama dengan proses di atas, untuk mengakses summary (menghitung kejadian) pada sebuah data frame, variable yang akan ditampilkan sebagai baris pada argumen pertama table() dan variable kolom pada argumen kedua.
+
+```{r}
+head(airquality)
+table(airquality$Month[c(1:60)], airquality$Temp[c(1:60)]) # diambil dari 60 data pertama
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+### List 
+
+List dapat diibaratkan juga seperti data frame atau multiple array kalau dalam beberapa program lain (PHP). List adalah sebuah objek yang dapat menyimpan data dengan panjang data dan tipe class yang berbeda.
+
+Perhatikan contoh
+
+```{r}
+myList <- list(vec1, vec2, vec3, vec4)
+
+#=> Output
+#=> [[1]]
+#=> [1] 10 20 15 40
+#=> [[2]]
+#=> [1] "a" "b" "c" NA
+#=> [[3]]
+#=> [1] TRUE FALSE TRUE TRUE
+#=> [[4]]
+#=> [1] l1 l2 l3 l4
+#=> Levels: l1 l2 l3 l4
+```
+
+
+\newline
+&nbsp;
+\newline
+
+#### Multi level List
+
+Lists can have multiple levels within.
+
+```{r}
+mylist[3]  # level 1
+
+# [[3]]
+
+# [1] TRUE FALSE TRUE TRUE
+```
+
+
+```{r}
+myList[[3]]  # level 2: access the vec3 directly
+#=> [1] TRUE FALSE TRUE TRUE
+myList[[3]][3]  # 3rd elem of vec3
+#=> [1] TRUE
+lapply(myList, length)  # length of each element as a list
+```
+
+
+\newline
+&nbsp;
+\newline
+
+#### Unlisting
+
+
+```{r}
+unlist()  # flattens out into a one-level list.
+unlist(myList)  # flattens out
+```
+ 
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+### If-Else 
+
+Format atau struktur percabangan If-Else seperti dicontohkan di bawah ini. 
+
+```{r}
+if(checkConditionIfTrue) {
+  ....statements..
+  ....statements..
+} else {   # place the 'else' in same line as '}'
+  ....statements..
+  ....statements..
+} 
+```
+
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+### For-Loop 
+
+Perintah untuk melakukan pengulangan (loops). Jika memungkinkan, disarankan untuk menggunakan fungsi __ apply __ untuk proses pengulangan. Format pengulangan sebagai berikut:
+
+```{r}
+for(counterVar in c(1:n)){
+  #.... statements..
+}
+```
+Cobalah buat sebuah vector character sepanjang jumlah baris pada dataset iris, sedemikian sehingga isi datanya adalah 'lebih dari 5' jika nilai ‘Sepal.Length’ > 5, dan sebaliknya “kurang dari 5”.
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+### Perintah apply 
+
+__ apply() __: Apply FUN seperti perintah loop yang biasa digunakan pada __ data frame atau matrix __ dengan menentukan proses loop secara spesifik pada baris (rows) atau kolom (columns). 
+
+```{r}
+myData <- matrix(seq(1,16), 4, 4)  # membuat matriks 4 x 4
+myData
+apply(myData, 1, FUN=min)  # mengambil nilai 'min' pada setiap baris -> 1
+#=> [1] 1 2 3 4
+
+apply(myData, 2, FUN=min)  # mengambil nilai 'min' pada setiap kolom -> 2
+#=> [1] 4 8 12 16
+
+apply(data.frame(1:5), 1, FUN=function(x) {x^2})  # square of 1,2,3,4,5
+#=> [1] 1 4 9 16 25
+```
+
+__ lapply() __: Perintah untuk loop untuk setiap elemen pada sebuah  list (or) atau kolom suatu data frame dan mengembalikan hasilnya dalam bentuk list.
+
+
+```{r}
+lapply(airquality, class)  # mengembalikan hasil classes setiap kolom dalam list 'airquality'
+```
+
+__ apply() __: Perintah untuk loop untuk setiap elemen pada sebuah  list (or) atau kolom suatu data frame dan mengembalikan hasilnya dalam bentuk vector.
+
+Perhatikan contoh untuk memperoleh class setiap kolom dalam data frame berikut ini. 
+
+```{r}
+sapply(airquality, class)  # menampilkan class setiap kolom dalam dataset 'airquality'
+```
+
+__vapply()__: Sama dengan perintah sapply() tetapi lebih cepat. Perlu menambahkan argumen FUN.VALUE yang menghasilkan nilai luaran bisa berupa character(0) untuk string, numeric(0) atau 0L untuk angka (number), logical(0) untuk boolean.
+
+```{r}
+x <- list(a = 1, b = 1:3, c = 10:100)  # membuat sebuah list
+x
+vapply(x, FUN = length, FUN.VALUE = 0L)  # menampilkan panjang setiap baris list, dan FUN.VALUE tersebut mendefinsikan format luarannya dalam bentuk angka (number)
+```
+
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+### Penanganan Kesalahan (Error handling)
+
+Mengaktifkan dan mematikan pesan error. 
+
+```{r}
+options(show.error.messages=F) # turn off
+1 <-1 
+
+options(show.error.messages=T) # turn on
+1 <- 1
+```
+
+Tanpa error handling 
+
+```{r}
+for(i in c(1:10)) {
+  1 <- 1 # menyebabkan error
+}
+print(i) # i bernilai 1.
+```
+
+Memasang Error Handling.
+
+
+```{r}
+for(i in c(1:10)) {
+  triedOut <- try(1 <- 1) # try error
+}
+print(i) # i bernilai 10. meskipun ada kesalahan pada bagian loop.
+```
+
+
+#### tryCatch()
+
+Fungsi trycatch() digunakan untuk penangangan error handling yang lebih baik dimana pesan error dapat disesuaikan.
+
+Berikut contohnya:
+
+```{r}
+tryCatch(
+  {1 <- 1; print("Ilustrasi bagian yang program yang ada error-nya")}, 
+  error=function(err){
+    print(err); 
+    print("Pesan error yang ingin disampaikan")
+    },  
+  finally = {print("Lakukan ini")}
+  ) 
+#=> [1] "Lets create an error"
+#=> <simpleError in 1 <- 1: invalid(do_set) left-hand side to assignment>
+#=> [1] "Error Line"
+#=> [1] "finally print this"
+```

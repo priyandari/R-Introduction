@@ -1,0 +1,355 @@
+---
+title: "Klasifikasi menggunakan KNN"
+output: html_notebook
+---
+
+KNN atau k-Nearest Neighbors adalah salah satu algoritma dasar untuk klasifikasi data. Sebagai sebuah algoritma klasifikasi, tentunya data sample sudah ada "flag" untuk menuntun proses klasifikasi terhadap data yang akan diklasifikasi.
+
+## 1. Eksplorasi Data
+
+Data yang digunakan adalah datasets yang telah tersedia yakni "iris". 
+
+![Gambar Bunga Iris](images\irisimage.JPG)
+
+Bisa menggunakan data ke sumber : 
+
+http://archive.ics.uci.edu/ml/datasets/Iris
+
+kemudian masuk ke data folder dan akses data menggunakan perintah ini.
+
+
+```{r}
+
+iris_uci <- read.csv(url("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"), header = FALSE)
+
+head(iris_uci)
+
+# menambahkan nama kolom
+names(iris_uci) <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width", "Species")
+
+tail(iris_uci)
+
+
+```
+
+kali ini kita cukup menggunakan datasets saja karena sudah tersedia. Jika datasets belum ada, silahkan install menggunakan perintah kemudian eksplorasi data iris tersebut:
+
+```{r}
+install.packages("datasets")
+
+irisdata <- iris
+
+head(irisdata)
+str(irisdata)
+
+table(irisdata$Species)
+
+# persentasi data `Species`
+round(prop.table(table(iris$Species)) * 100, digits = 1)
+
+summary(irisdata)
+summary(iris[c("Petal.Width", "Sepal.Width")])
+
+```
+
+Coba kita gambarkan data dalam grafik. pada contoh ini digunakan library __ggvis__. Inilah salah satu kelebihan R, banyaknya pihak yang memberikan kemudahan untuk membuat grafik. Selain bisa menggunakan menggunakan library yang telah dimiliki, ada juga library __ggplot__ dan __ggvis__.
+
+```{r}
+install.packages("ggvis")
+
+```
+
+
+```{r}
+library(ggvis)
+
+irisdata %>% ggvis(~Sepal.Length, ~Sepal.Width, fill=~Species) %>% layer_points()
+
+```
+
+Berdasarkan ilustrasi grafik di atas, bisa diambil sedikit informasi bahwa ada cukup korelasi antara panjang Sepal dengan lebar Sepal pada spesies iris-setosa. namun korelasi pada jenis iris-versicolor dan iris-verginica tidak begitu tampak.
+
+```{r}
+irisdata %>% ggvis(~Petal.Length, ~Petal.Width, fill=~Species) %>% layer_points()
+
+```
+
+Berdasarkan eksplorasi secara grafik, ada korelasi antara panjang Petal terhadap lebar petal pada dataset iris tersebut.
+
+```{r}
+cor(irisdata$Petal.Length, irisdata$Petal.Width)
+
+```
+Bila di cek satu persatu.
+
+```{r}
+x=levels(irisdata$Species)
+x
+
+# Matriks korelasi Setosa terhadap atribut lainnya
+print(x[1])
+cor(irisdata[irisdata$Species == x[1], 1:4])
+
+# Matriks korelasi Versicolor terhadap atribut lainnya
+print(x[2])
+cor(irisdata[irisdata$Species == x[2], 1:4])
+
+# Matriks korelasi Virginica terhadap atribut lainnya
+print(x[3])
+cor(irisdata[irisdata$Species == x[3], 1:4])
+
+
+```
+
+
+## 2. Persiapan Data
+
+
+#### Normalisasi Data
+
+Salah satu bagian dari persiapan data, selain dilakukan pembersihan data aoutlier, data mising, terkadang normalisasi juga diperlukan sebelum dilakukan proses pengolahan. 
+
+Ada dua bentuk normalisasi:
+* _example normalization_ : normalisasi didasarkan pada masing-masing jenis (atribut) data,
+* _feature normalization_ : normalisasi didasarkan pada keseluruhan data .
+
+Kapan normalisasi diperlukan ? --> Apabila diduga data belum konsisten.
+
+Misal, pada saat eksplorasi data, terlihat bahwa rentang antara nilai data minimum dan maksimum sangat besar, sehingga nantinya proses pengolahan bisa dipengaruhi / didominasi data berukuran besar tersebut. Misal, Data X rentang nilainya antara 1 sampai 1000, sedangkan data Y rentang nilainya antara 1 sampai 10, tentunya dalam pengolahannya, data X bisa mendominasi. 
+
+Seandainya data iris akan dinormalisasi, contoh proses normalisasi di bawah ini bisa digunakan.
+
+
+```{r}
+# Buatlah fungsi normalisasi
+normalize <- function(x) {
+num <- x - min(x)
+denom <- max(x) - min(x)
+return (num/denom)
+}
+
+# lakukan proses normalisasi untuk setiap baris data pada kolom 1 sampai 4
+irisdata_norm <- as.data.frame(lapply(irisdata[1:4],normalize))
+
+# Lihat hasilnya normalisasi`
+summary(irisdata_norm)
+```
+
+Di dalam Contoh selanjutnya, masih digunakan data asli yang disimpan pada dataframe __irisdata__ bukan menggunakan __irisdata_norm__.
+
+
+
+#### Menyiapkan Data Training dan Data Testing
+
+Untuk mengevaluasi model yang sesuai atau menentukan parameter terbaik yang digunakan pada sebuah model,  biasanya data yang ada dibagi menjadi dua bagian. Dua pertiga digunakan sebagai data training, dan sisanya digunakan sebagai data testing.
+
+__Note:__
+Pada datasets iris, 50 data __pertama__ berisi iris Setosa, 50 berikutnya berisi data iris versicolor dan sisanya adalah virginica. Kita perlu mengambil 2/3 bagian secara random dari seluruh data, namun cukup proporsional terhadap ketiga spesies yang ada.
+
+```{r}
+# set seed random generator
+set.seed(1234)
+```
+
+Gunakakan fungsi __sample()__ untuk membagi data menjadi dua bagian (training dan testing). Data training akan kita tandai dengan angka 1, sedangkan data testing akan kita tandai dengan angka 2.
+
+
+```{r}
+ind <- sample(2, nrow(irisdata), replace=TRUE, prob=c(0.67, 0.33))
+
+ind
+
+```
+
+__Note__ 
+__sample(2__ berarti data akan dibuat menjadi dua buah sample dari vektor yang nilainya 1 dan 2.
+__replace = TRUE__ berarti bahwa kita akan memberi tanda 1 atau 2 untuk setiap baris dan kemudian reset vektor pada status aslinya. Dengan demikian, untuk baris berikutnya dapat kembali diacak untuk diberikan pilihan angka 1 atau 2. Probabilitas pemberian angka 1 atau 2 besarnya adalah 0.67 dan 0.33.
+
+
+Setelah 150 data telah kita tandai, selanjutnya kita simpan tabel untuk masing-masing data training dan data testing.
+
+```{r}
+irisdata.training <- irisdata[ind == 1, 1:4]
+
+irisdata.test <- irisdata[ind == 2, 1:4]
+
+# Coba lihat datanya
+summary(irisdata.training)
+nrow(irisdata.training)
+
+nrow(irisdata.test)
+
+```
+
+Pada langkah sebelumnya, irisdata.training hanya menyimpan atribut pada kolom 1 sampai 4, yakni Sepal.Length, Sepal.Width, Petal.Length dan Petal.Width.
+
+Langkah selanjutnya menyiapkan vektor Label bagi __variabel target__ untuk data traning dan juga data testing.
+
+```{r}
+iris.trainlabels <- irisdata[ind==1, 5]
+iris.testlabels <- irisdata[ind==2, 5]
+
+#Lihat hasinya
+print(iris.trainlabels)
+print(iris.testlabels)
+
+```
+
+
+## 3. Membangun Model KNN
+Pada latihan ini, dilakukan proses klasifikasi menggunakan KNN. Terlebih dahulu akan dipilih parameter model KNN yang memberikan  klasifikasi yang cukup baik terhadap data yang telah dimiliki.
+
+Atribut Species menjadi variabel target, dalam artian jika terdapat data Sepal.Length, Sepal.Width, Petal.Length, dan Petal.Width dari bunga iris, model bisa melakukan klasifikasi bahwa bunga tersebut termasuk ke dalam kelompok yang mana dari ketiga kelompok yang ada.
+
+__KNN__: bisa juga menggunakan atribut numerik pada variabel target untuk melakukan prediksi sebagaimana model regresi.
+
+Bagian awal ini digunakan library __class__
+
+```{r}
+library(class)
+iris_pred <- knn(train = irisdata.training, test = irisdata.test, cl = iris.trainlabels, k = 3)
+
+# Lihat model prediksinya
+iris_pred
+
+```
+
+Agar mudah melihat hasilnya, kita akan susun __vektor__ hasil prediksi ke dalam data frame bersama dengan data aslinya.
+
+```{r}
+# menyimpan dalam bentuk data frame
+irisTestLabels <- data.frame(iris.testlabels)
+
+# menggabungkan dalam data frame
+merge <- data.frame(iris_pred, iris.testlabels)
+
+# Jika diperlukan untuk mengubah dana kolom pada variabel merge
+# names(merge) <- c("Predicted Species", "Observed Species")
+
+# Lihat hasilnya
+merge
+```
+
+
+
+Lihat pada baris ke-29
+
+Ada indikasi bahwa model knn tidak sempurna dalam melakukan proses prediksi.
+
+#### Mengevaluasi Model KNN
+
+Digunakan library __gmodels__
+
+```{r}
+# jika belum install packet
+install.packages("gmodels")
+
+```
+
+```{r}
+library(gmodels)
+
+```
+
+```{r}
+CrossTable(x = iris.testlabels, y = iris_pred, prop.chisq = FALSE)
+
+```
+Secara umum, model KNN dengan k=3 sudah cukup baik untuk melakukan proses klasifikasi.
+
+
+
+#### Memilih Parameter Model atau Model yang Optimal
+
+Sampai pada tahapan sebelumnya, kita menentukan bahwa k = 3 untuk model KNN dalam memprediksi apakah sebuah bunga iris diklasifikasikan ke dalam salah satu dari 3 spesies. Apakah k=3 adalah parameter yang terbaik? bagaimana jika k=5, atau, k = 7 ? 
+
+Sampai pada tahapan tersebut, jika menggunakan fungsi __knn__ untuk mendapatkan __iris_pred__ yang terbaik, maka proses harus dilakukan ulang untuk k=5 dan k=7 kemudian dilihat tabel hasil evaluasinya.
+
+Kemudian bagiaman jika ingin menggunakan model lain selain KNN ?
+
+R menyediakan sebuah paket library yaitu __caret__ "Classification and Regression Training" yang membantu menentukan model dan parameter yang dinilai optimal.
+
+```{r}
+install.packages("caret", dependencies = TRUE)
+
+```
+
+Load library tersebut.
+
+```{r}
+library(caret)
+
+```
+
+Bagilah data menjadi data training dan data testing. Oleh karena digunakan library caret, maka proses pembagian sample juga menjadi lebih mudah.
+
+Dibuat sebuah data frame yang menyimpan nomor indeks untuk dijadikan sebagai data training ( 2/3 bagian atau 0.75 bagian)
+```{r}
+indeks <- createDataPartition(irisdata$Species, p=0.75, list = FALSE)
+
+head(indeks)
+nrow(indeks)
+
+```
+Kemudian simpan data training yang berasal dari seluruh irisdata yang indeks-nya ada dalam dataframe indeks tersebut. Demikian sebaliknya untuk data testing.
+
+```{r}
+irisdata.train <- irisdata[indeks,]
+
+irisdata.tes <- irisdata[-indeks,]
+
+
+```
+
+Membentuk training model knn.
+
+```{r}
+model_knn <- train(irisdata.train[,1:4], irisdata.train[, 5], method = 'knn')
+
+# lihat hasil model
+model_knn
+```
+
+Dengan menggunakan library caret, cukup mengganti method yang diperkirakan relevan atau sesuai untuk digunakan. Apa saja metode yang terdapat dalam caret dapat dilihat menggunakan perintah 
+
+```{r}
+names(getModelInfo())
+
+```
+
+
+
+#### Melakukan Klasifikasi Berdasarkan Model
+
+Oleh karena model training yakni model_knn telah terbentuk, maka dapat dilakukan klasifikasi terhadap data testing yang sebelumnya disimpan dalam __irisdata.tes__
+
+```{r}
+prediksi <- predict.train(object = model_knn, irisdata.tes[,1:4], type = "raw")
+
+```
+
+#### Melakukan Evaluasi Klasifikasi Berdasarkan Model
+
+```{r}
+# Melihat jumlah baris hasil prediksi
+table(prediksi)
+
+# Melihat confusionMatrix antara hasil prediksi terhadap data tes
+confusionMatrix(prediksi, irisdata.tes[,5])
+
+
+```
+
+#### Melihat Efek Preprosesing Data
+
+```{r}
+model_knn2 <- train(irisdata.train[, 1:4], irisdata.train[, 5], method='knn', preProcess=c("center", "scale"))
+
+model_knn2
+
+prediksi2 <- predict.train(object=model_knn2, irisdata.tes[,1:4], type = "raw")
+
+confusionMatrix(prediksi2, irisdata.tes[,5])
+
+```
+

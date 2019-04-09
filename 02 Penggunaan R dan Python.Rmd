@@ -1,0 +1,70 @@
+---
+title: "Penggunaan R v.s Python"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+---
+
+\newline
+&nbsp;
+&nbsp;
+&nbsp;
+\newline
+
+## Popularitas R v.s Python
+
+Lebih dari dua dekade R dikembangkan oleh para akademisi dan ahli statistik. R kini menjadi salah satu program yang memiliki banyak library untuk keperluan data analisis. Library yang tersedia pada R kini memberikan berbagai kemudahan bagi penggunanya untuk melakukan analisis statistik, dan juga mempresentasikan hasilnya dengan baik. Sebagai contoh, dengan menggunakan RStudio dan library knitr hasil analisis statistik dapat dipresentasikan dengan elegan. 
+
+Berbeda dengan R, Python lebih dikenal sebagai bahasa pemrograman yang banyak digunakan untuk mengimplementasikan _machine learning_ pada skala besar. Python kini juga memiliki banyak library untuk kepentingan data analisis dan _artificial intelligent_. Python dengan dukungan library seperti Numpy, Pandas, Scipy, Scikit-learn dan Seaborn, maka apa yang bisa dilakukan oleh R juga bisa dilakukan oleh Python
+
+Python di satu sisi adalah bahasa pemrograman yang sedikit lebih humanis dibanding R < mungkin ini terkesan subyektif :) >. Namun fakta-fakta yang bersumber dari [guru99]() dapat dijadikan komparasi antara kedua bahasa pemrograman tersebut. 
+
+1. Python menduduki peringkat __pertama__ dan R menduduki peringkat __keenam__ pada tahun 2017 dalam tingkat kepopuleran
+2. Dilihat dari __kebutuhan tenaga kerja bidang data science__, Python menduduki peringkat kedua dan R pada peringkat kelima.
+3. R mengungguli Python kalau dilihat pada kemampuannya untuk analisis data (sumber data tahun 2014). Namun saat ini hampir semua kemampuan R juga ada pada Python.
+4. Menariknya, pengguna Python lebih loyal dibanding pengguna R. Salah satu penyebabnya karena Python lebih humanis, lebih general untuk berbagai keperluan, dan ketika dibutuhkan untuk data analysis maka Python memiliki banyak library sebagaimana R.
+
+\newline
+&nbsp;
+&nbsp;
+\newline
+
+## Perbandingan R vs Python
+
+\newline
+&nbsp;
+&nbsp;
+&nbsp;
+\newline
+
+Perhatikan Tabel perbandingan R dan Python di bawah ini untuk lebih jelasnya.
+
+![](images\RvsPython1.JPG)
+![](images\RvsPython2.JPG)
+
+
+## Tentukan Pilihan Penggunaan #2019ComputerProgramming
+
+\newline
+&nbsp;
+&nbsp;
+&nbsp;
+\newline
+
+Sebagaimana terlihat pada tabel perbandingan python dan R, bahwa R dikembangkan dengan tujuan khusus untuk data anlisis dengan target pengguna adalah para akademik dan bagian RnD, sedangkan python lebih banyak digunakan untuk pengembangan machine learning dengan pengguna lebih banyak para programmer atau pengembang aplikasi. Dar sisi kemampuan statistik dan presentasi boleh dibilang R masih mengungguli python.
+
+Pertanyaan yang perlu dijawab untuk pengelola pendidikan, mana yang akan diberikan kepada mahasiswa ? Tentukan target pilihan !!!
+
+* Apakah ingin memberikan pengetahuan dasar mengenai cara kerja algoritma komputer atau dasar-dasar pemrograman komputer ? atau
+* Apakah ingin memberikan pengetahuan penggunaan model-model statistik dan data mining ?
+
+Jika pilihan pertama adalah jawaban Anda, maka Python dianjurkan untuk diberikan. Sebaliknya jika jawaban kedua, maka fokuskan pada penggunaan R. Dengan demikian, memberikan pengetahuan pemrograman menggunakan python lebih dianjurkan untuk diberikan kepada mahasiswa tingkat dasar. Selain kedepannya mereka bisa berkembang untuk melakukan data analisis, pengetahuan pemrograman python juga bermanfaat untuk mahasiswa yang ingin berkembang pada penggunaan perangkat keras, elektronika dan website. Adapun jika mahasiswa tingkat lanjut yang telah mengetahui dasar pemrograman dan dikhususkan untuk statistik, dipersilahkan untuk menggunakan R. 
+
+
+![](images\Trends_di_Indonesia_02.JPG)
+
+![](images\Trends_di_Indonesia.JPG)
+
+Tq2
+

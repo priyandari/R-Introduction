@@ -3,6 +3,7 @@ title: "Pemrograman R"
 output:
   html_notebook: default
   word_document: default
+  pdf_document: default
 ---
 \newline
 &nbsp;
@@ -10,26 +11,8 @@ output:
 &nbsp;
 \newline
 
-## R bukanlah RRRrrrr!!!
 
-
-&nbsp;
-&nbsp;
-&nbsp;
-\newline
-\newline
-\newline
-
-
-[Pemrograman R]() bukanlah sebuah judul film sebagaimana [RRRrrrr!!!](https://www.youtube.com/watch?v=4Kg8UJ_MqoM) yang bergenre komedi sejarah dan dirilis tahun 2004, atau film [R](https://en.wikipedia.org/wiki/R_(film)) yang dirilis tahun 2010 yang berkisah tentang peredaran obat terlarang di suatu penjara :).
-
-![RRRrrrr!!!](images\RRRrrrr.jpg) ![R](images\R_2010.jpg) 
-
-&nbsp;
-\newline
-\newline
-
-## __R__ sebaga Bahasa Pemrograman 
+## __R__ sebagai Bahasa Pemrograman 
 
 ![](images/Rlogo.png)
 
@@ -59,7 +42,7 @@ Perhatikan bahwa :
 
 1. Pengguna dari hasil pekerjaan seorang data science adalah pelaku bisnis. Mereka umumnya membutuhkan media komunikasi yang baik untuk memahami hasil suatu pengolahan data, baik dalam bentuk laporan tertulis, web, atau aplikasi dashboard. Oleh karena itu, terkadang penggunaan piranti lunak seperti PowerBI atau Tableau sudah sangat powerfull digunakan (meskipun keduanya tidak gratis 100% ). Adapun bila mempertimbangkan dukungan dana yang terbatas, maka R bisa menjadi sebuah pilihan dibanding Python karena kemampuan presentasi hasil sedikit lebih baik.
 
-2. Pemrograman R memang dahulu terbilang cukup sulit digunakan, namun karena semakin banyaknya libary siap pakai yang telah dikembangkan oleh sejumlah pihak, maka membuat suatu pengolahan data statistik dan grafik bukanlah hal menyulitkan lagi.  
+2. Pemrograman R memang dahulu terbilang cukup sulit digunakan, namun karena semakin banyaknya library siap pakai yang telah dikembangkan oleh sejumlah pihak, maka membuat suatu pengolahan data statistik dan grafik bukanlah hal menyulitkan lagi.  
 
 3. Algoritma-algoritma terbaik untuk _machine learning_ kini dapat digunakan menggunakan R. 
 

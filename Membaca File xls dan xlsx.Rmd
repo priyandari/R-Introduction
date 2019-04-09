@@ -1,0 +1,45 @@
+---
+title: "Membaca File xls dan xlsx"
+output: html_notebook
+---
+
+### Membaca file xls
+
+Gunakan library readxl
+
+```{r}
+library(readxl)
+myRsample <- read_excel("myRsample.xls")
+
+```
+
+
+### Membaca file xlsx
+
+Gunakan library xlsx
+
+```{r}
+library("xlsx")
+
+read.xlsx("myRsample.xls", sheetIndex, header=TRUE, colClasses=NA)
+read.xlsx2("myRsample.xls", sheetIndex, header=TRUE, colClasses="character")
+
+```
+
+### Menulis file xlsx
+
+Gunakan library xlsx
+
+```{r}
+write.xlsx(x, file, sheetName="Sheet1", col.names=TRUE, row.names=TRUE, append=FALSE)
+write.xlsx2(x, file, sheetName="Sheet1", col.names=TRUE, row.names=TRUE, append=FALSE)
+```
+
+x : data.frame
+file : path output file
+sheetName : a character string to use for the sheet name.
+col.names, row.names : a logical value specifying whether the column names/row names of x are to be written to the file
+append : a logical value indicating if x should be appended to an existing file.
+
+
+http://www.sthda.com/english/wiki/r-xlsx-package-a-quick-start-guide-to-manipulate-excel-files-in-r

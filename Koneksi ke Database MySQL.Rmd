@@ -1,0 +1,25 @@
+---
+title: "Koneksi ke Database MySQL"
+output: html_notebook
+---
+
+Salah satu packet library yang bisa digunakan untuk koneksi ke database mySQL adalah "RMySQL""
+
+```{r}
+install.packages("RMySQL")
+install.packages("dbConnect")
+```
+
+Setelah paket library tersedia, library tersebut siap digunakan.
+
+```{r}
+library(RMySQL)
+mydb = dbConnect(MySQL(), user="root", password="", dbname="sikapta2018", host="localhost")
+dbListTables(mydb)
+result = dbSendQuery(mydb,"select nim, nama, angkatan from mahasiswa")
+df=fetch(result, n=100)
+head(df)
+summary(df)
+
+```
+

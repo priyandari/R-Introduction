@@ -1,0 +1,29 @@
+---
+title: "Link Tutorials dan Sumber Data"
+output: html_notebook
+---
+
+Akhir kata, 
+
+Sangat banyak sekali tutorial yang tersedia di internet sebagai bahan belajar.
+
+Berikut ini saya coba infokan sedikit diantaranya
+
+### Tutorials
+http://www.r-tutor.com/r-introduction
+
+https://www.guru99.com/r-tutorial.html
+
+https://rpubs.com/
+
+https://courses.analyticsvidhya.com/collections
+
+
+### Data Sumber
+
+Selain menggunakan datasets yang telah tersedia, di internet juga tersedia data-data berukuran kecil hingga besar yang dapat dimanfaatkan untuk sumber belajar.
+
+https://www.kaggle.com/datasets
+
+
+https://archive.ics.uci.edu/ml/index.php
