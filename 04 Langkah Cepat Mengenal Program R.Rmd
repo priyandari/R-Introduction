@@ -161,32 +161,6 @@ directori <-getwd()
 directori
 
 ```
-
-\newline
-&nbsp;
-\newline
-
-#### Import/Export CSV
-
-
-Proses yang sering dilakukan dalam pemanfaatan R adalah mengolah data dari eskternal, misal dari file CSV, XLS, atau bahkan mengaksesnya dari basisdata. Pada sesi ini, diperkenalkan secara singkat import/export file CSV.
-
-```{r}
-# myData <- read.csv("F:/71 TUTORIALS/R-introduction/data/irisData.csv")
-# Atau menggunakan
-
-directori <-getwd()
-directori <-paste0(directori,"/data/irisData.csv")
-myData <- read.csv(directori, header = TRUE)
-myData
-
-```
-
-
-```{r}
-write.csv(myData, "F:/71 TUTORIALS/R-introduction/data/irisDataEkspor.csv")
-```
-
 \newline
 &nbsp;
 &nbsp;
@@ -439,10 +413,50 @@ nrow(airquality)  # menampilkan jumlah baris
 ncol(airquality)  # menampilkan jumlah kolom
 ```
 
+
+\newline
+&nbsp;
+\newline
+
+#### Import/Export CSV
+
+
+Proses yang sering dilakukan dalam pemanfaatan R adalah mengolah data dari eskternal, misal dari file CSV, XLS, atau bahkan mengaksesnya dari basisdata. Pada sesi ini, diperkenalkan secara singkat import/export file CSV.
+
+```{r}
+myData <- iris
+myData
+head(myData)
+
+```
+
+```{r}
+# Menulikan dataset iris ke file csv
+head(myData[,c(1:5)])
+write.csv(myData[, c(1:5)], "F:/71 TUTORIALS/R-introduction/data/irisDataEkspor.csv", row.names = FALSE)
+```
+
+
+```{r}
+myDataR <- read.csv("F:/71 TUTORIALS/R-introduction/data/irisDataEkspor.csv")
+head(myDataR)
+# Atau menggunakan
+
+directori <-getwd()
+directori
+pathfile <-paste0(directori,"/data/irisData.csv")
+pathfile
+myData <- read.csv(pathfile, header = TRUE)
+myData
+
+```
+
+
 \newline
 &nbsp;
 &nbsp;
 \newline
+
 
 
 #### Menambahkan Data pada Dataframe (cbind dan rbind)
@@ -572,7 +586,6 @@ Pengolahan data tanggal kadangkala sering ditemui pada saat melakukan analisis. 
 dateString <- "15/06/2014"
 myDate <- as.Date(dateString, format="%d/%m/%Y")
 class(myDate)  # "Date"
-myPOSIXltDate %lt;- as.POSIXlt(myDate)
 class(myPOSIXltDate)  # POSIXlt
 myPOSIXctDate <- as.POSIXct(myPOSIXltDate)  # convert to POSIXct
 ```
