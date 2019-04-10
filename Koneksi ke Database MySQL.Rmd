@@ -16,7 +16,7 @@ Setelah paket library tersedia, library tersebut siap digunakan.
 library(RMySQL)
 mydb = dbConnect(MySQL(), user="root", password="", dbname="sikapta2018", host="localhost")
 dbListTables(mydb)
-result = dbSendQuery(mydb,"select nim, nama, angkatan from mahasiswa")
+result = dbSendQuery(mydb,"select nim, tahun, sks_lulus, kum_ambil, ip_kum from mahasiswa_capaian_sks")
 df=fetch(result, n=100)
 head(df)
 summary(df)

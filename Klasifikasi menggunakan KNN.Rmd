@@ -40,6 +40,7 @@ install.packages("datasets")
 irisdata <- iris
 
 head(irisdata)
+tail(irisdata)
 str(irisdata)
 
 table(irisdata$Species)
